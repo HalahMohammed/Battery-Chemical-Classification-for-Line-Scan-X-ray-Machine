@@ -24,4 +24,16 @@
 3. Crop battery region → Preprocess for DL model
 4. Run classification → Output chemical type and depth
 
+# Key Configuration Parameters
+
+```python
+MaxImagesRegions = 2      # Frames processed simultaneously
+ImageWidth = 1536         # Line scan camera width
+ImageHeight = 547         # Frame height per acquisition
+
+# Detection parameters (adjust based on your battery sizes):
+min_area = 1000, max_area = 30000
+min_width = 20, max_width = 760
+```
+
 
