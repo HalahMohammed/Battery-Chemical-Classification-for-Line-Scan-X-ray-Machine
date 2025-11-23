@@ -6,7 +6,7 @@ ImageWidth=1536
 ImageHeight=547
 TiledImage = ha.gen_image_const('uint2', ImageWidth, ImageHeight *MaxImagesRegions )
 PrevRegions = ha.gen_empty_region()
-ClipsProcessedSoFar= 0
+objectsProcessedSoFar= 0
 
 
 
@@ -62,15 +62,15 @@ def main():
     
     image = ha.read_image("C:/Users/halah/Downloads/codes/Battery chemical classification/image024.tif")
     CurrRegions = ha.threshold(image, 0, 15000)
-    clip_candidates = ha.connection(CurrRegions)
-    FinishedClips = ha.select_shape (clip_candidates,  ['area','width'], 'and', [1000,20 ], [30000, 760])
-    object_counted = ha.count_obj(FinishedClips)
-    #print("number of detected shapes-->",FinishedClip
-    ClipsInCurrentImageCoordinates = ha.move_region (FinishedClips, -ImageHeight, 0)
+    object_candidates = ha.connection(CurrRegions)
+    Finishedobjects = ha.select_shape (object_candidates,  ['area','width'], 'and', [1000,20 ], [30000, 760])
+    object_counted = ha.count_obj(Finishedobjects)
+    #print("number of detected shapes-->",Finishedobject
+    objectsInCurrentImageCoordinates = ha.move_region (Finishedobjects, -ImageHeight, 0)
      #ha.dev_set_part (0, 0, (MaxImagesRegions + 1) * ImageHeight - 1, ImageWidth - 1)
-    ClipsInTiledImageCoordinates = ha.move_region (FinishedClips, (MaxImagesRegions - 1) * ImageHeight, 0)
+    objectsInTiledImageCoordinates = ha.move_region (Finishedobjects, (MaxImagesRegions - 1) * ImageHeight, 0)
     print("Number of detected shapes:", object_counted)
-    num_objects = ha.count_obj(FinishedClips)
+    num_objects = ha.count_obj(Finishedobjects)
     print(f"Number of found objects: {num_objects}")
 
     model = ha.read_dl_model('C:/Users/halah/Downloads/codes/Battery chemical classification/Classification Models/newclassifier.hdl')
@@ -80,7 +80,7 @@ def main():
     preprocess_param = get_preprocess_params(model)
 
     for i in range(num_objects):
-        object_selected = ha.select_obj( FinishedClips, i + 1)
+        object_selected = ha.select_obj( Finishedobjects, i + 1)
         row, col, phi, l1, l2 = ha.smallest_rectangle2(object_selected)
         cropped_image=ha.crop_rectangle2( image,row, col, phi, l1, l2, 'true', 'constant')
 
