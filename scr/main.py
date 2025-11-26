@@ -60,7 +60,7 @@ def run_model_inference(model, samples):
 def main():
 
     
-    image = ha.read_image("C:/Users/halah/Downloads/codes/Battery chemical classification/image024.tif")
+    image = ha.read_image("/image.tif")
     CurrRegions = ha.threshold(image, 0, 15000)
     object_candidates = ha.connection(CurrRegions)
     Finishedobjects = ha.select_shape (object_candidates,  ['area','width'], 'and', [1000,20 ], [30000, 760])
@@ -73,7 +73,7 @@ def main():
     num_objects = ha.count_obj(Finishedobjects)
     print(f"Number of found objects: {num_objects}")
 
-    model = ha.read_dl_model('C:/Users/halah/Downloads/codes/Battery chemical classification/Classification Models/newclassifier.hdl')
+    model = ha.read_dl_model('/classifier.hdl')
     ha.set_dl_model_param(model, 'optimize_for_inference', 'true')
     ha.set_dl_model_param(model, 'batch_size', 1)
 
